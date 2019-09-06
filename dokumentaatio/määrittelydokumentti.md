@@ -14,7 +14,7 @@ Ohjelma saa syötteeksi numeroita ja pilkkuja sisältävän tasokoodin, jonka se
 
 ## Vaativuudet
 
-Tavoitteena on varmaan logaritminen aikavaativuus. Ohjelman syötteet ovat aina pieniä, joten prioriteetti on saada ohjelma ratkaisemaan monimutkaisempia kenttiä.
+Tavoitteena on varmaan algoritmin vaativa logaritminen aikavaativuus. Ohjelman syötteet ovat aina pieniä, joten prioriteetti on saada ohjelma ratkaisemaan monimutkaisempia kenttiä.
 
 ## Lähteet(?)
 
