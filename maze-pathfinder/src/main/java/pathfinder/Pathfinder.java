@@ -29,7 +29,7 @@ public class Pathfinder {
     public static String solve(String levelCode) {
 
         try {
-            
+
             //load the level code
             String tiles[][] = new String[15][15];
             String[] codeArray = levelCode.split(",");
@@ -53,6 +53,12 @@ public class Pathfinder {
                         case "9": //GOAL
                             tiles[j][i] = "X";
                             break;
+                        case "25": //KEY
+                            tiles[j][i] = "k";
+                            break;
+                        case "28": //LOCK
+                            tiles[j][i] = "L";
+                            break;
                     }
                     indx++;
                 }
@@ -60,17 +66,72 @@ public class Pathfinder {
 
             //print the level
             System.out.println("");
-            for (int i = 0; i < 15; i++) {
-                System.out.println("");
-                for (int j = 0; j < 15; j++) {
-                    System.out.print(tiles[i][j] + " ");
-                }
-            }
+            printLevel(tiles);
 
-            return (BFS(tiles, startX, startY));
-            
+            //get and print the solution
+            String path = (BFS(tiles, startX, startY, "", false));
+            if (!path.contains("Couldn't solve the level")) {
+                printSolution(tiles, path, startX, startY);
+            }
+            System.out.println("\n");
+            return path;
+
         } catch (Exception e) {
-            return "\n\nInvalid level code!";
+            return "\nInvalid level code!";
+        }
+    }
+
+    /**
+     * Prints a view of the level.
+     * @param tiles The tile grid of the level
+     */
+    public static void printLevel(String tiles[][]) {
+
+        System.out.println("Level layout:");
+
+        for (int i = 0; i < 15; i++) {
+            System.out.println("");
+            for (int j = 0; j < 15; j++) {
+                System.out.print(tiles[i][j] + " ");
+            }
+        }
+    }
+
+    /**
+     * Prints a view of the solved level, displaying "+" in areas where the player has travelled.
+     * @param tiles The tile grid of the level
+     * @param solution The solution to the level as a sequence of command inputs.
+     * @param startX The x coordinate of the starting position
+     * @param startY The y coordinate of the starting position
+     */
+    public static void printSolution(String tiles[][], String solution, int startX, int startY) {
+
+        int printX = 0;
+        int printY = 0;
+        while (!solution.isEmpty() && solution.length() != 1) {
+            switch (solution.charAt(0)) {
+                case 'w':
+                    printY--;
+                    break;
+                case 'a':
+                    printX--;
+                    break;
+                case 's':
+                    printY++;
+                    break;
+                case 'd':
+                    printX++;
+                    break;
+            }
+            solution = solution.substring(1);
+            tiles[startX + printY][startY + printX] = "+";
+        }
+
+        for (int i = 0; i < 15; i++) {
+            System.out.println("");
+            for (int j = 0; j < 15; j++) {
+                System.out.print(tiles[i][j] + " ");
+            }
         }
     }
 
@@ -80,9 +141,11 @@ public class Pathfinder {
      * @param tiles Array that contains information of the level layout
      * @param startX The x position where the level starts
      * @param startY The y position where the level starts
+     * @param oldPath The path that the player has already travelled
+     * @param hasKey Is the player carrying a key?
      * @return Sequence of commands required to solve the level
      */
-    public static String BFS(String tiles[][], int startX, int startY) {
+    public static String BFS(String tiles[][], int startX, int startY, String oldPath, boolean hasKey) {
 
         ArrayDeque<Pair<Integer, Integer>> queue = new ArrayDeque();
         HashMap<Pair, Pair> parents = new HashMap();
@@ -93,8 +156,10 @@ public class Pathfinder {
 
         while (!queue.isEmpty()) {
             v = queue.pop();
-            if (tiles[v.getKey()][v.getValue()].equals("X")) {
-                // finish reached, time to get the path
+            if (tiles[v.getKey()][v.getValue()].equals("X") || tiles[v.getKey()][v.getValue()].equals("L") || ((tiles[v.getKey()][v.getValue()].equals("k") && !hasKey))) {
+                // we are interacting with an object in this tile (finish, lock or key)
+                String found = tiles[v.getKey()][v.getValue()];
+                Pair<Integer, Integer> vCopy = v;
                 String path = "";
                 while (true) {
                     Pair<Integer, Integer> p = parents.get(v);
@@ -120,8 +185,21 @@ public class Pathfinder {
                     realPath += path.charAt(index);
                     index--;
                 }
-                System.out.println("\n\nSolution found:\n");
-                return realPath;
+                if (found.equals("X")) {
+                    // finish was found, we are done.
+                    System.out.println("\n\nSolution found:");
+                    return oldPath + realPath;
+                } else if (found.equals("L")) {
+                    // lock was found and we have the key, open the lock and start searching for goal again.
+                    tiles[vCopy.getKey()][vCopy.getValue()] = "-";
+                    hasKey = false;
+                    return BFS(tiles, vCopy.getKey(), vCopy.getValue(), oldPath + realPath, hasKey);
+                } else if (found.equals("k")) {
+                    // key was found, pick up the key and start searching for goal again.
+                    tiles[vCopy.getKey()][vCopy.getValue()] = "-";
+                    hasKey = true;
+                    return BFS(tiles, vCopy.getKey(), vCopy.getValue(), oldPath + realPath, hasKey);
+                }
             }
 
             // here we check all adjacent tiles if they haven't been checked already
@@ -129,7 +207,8 @@ public class Pathfinder {
             int yy = 0;
             while (true) {
                 try {
-                    if (!visited[v.getKey() + xx][v.getValue() + yy] && !tiles[v.getKey() + xx][v.getValue() + yy].equals("#")) {
+                    // if the tile is passable it'll get visited next (lock tiles are passable only if the player is holding a key)
+                    if (!visited[v.getKey() + xx][v.getValue() + yy] && !tiles[v.getKey() + xx][v.getValue() + yy].equals("#") && !(tiles[v.getKey() + xx][v.getValue() + yy].equals("L") && !hasKey)) {
                         visited[v.getKey() + xx][v.getValue() + yy] = true;
                         queue.push(new Pair<>(v.getKey() + xx, v.getValue() + yy));
                         parents.put(new Pair<>(v.getKey() + xx, v.getValue() + yy), new Pair<>(v.getKey(), v.getValue()));
