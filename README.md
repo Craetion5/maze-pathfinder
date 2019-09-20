@@ -8,3 +8,6 @@
 
 [Viikkoraportti 2](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/viikkoraportti2.md
 )
+
+[Viikkoraportti 3](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/viikkoraportti2.md
+)
