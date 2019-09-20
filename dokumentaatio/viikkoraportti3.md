@@ -2,7 +2,7 @@
 
 **Käytin viikolla noin neljä tuntia aikaa projektin kehittelyyn.** 
 
-Huomasin, ettei pajaa järjestetäkään itselle mukavaan aikaan ja pääsin ohjelmointirutiiniin melko myöhään, mutta projekti kehittyi hyvin:
+Huomasin, ettei pajaa järjestetäkään itselle mukavaan aikaan ja pääsin ohjelmointirutiiniin melko myöhään, mutta projekti kehittyi aika hyvin:
 
 * Sovellus osaa ratkaista labyrintteja, joissa on avaimia ja lukkoja!
   * Reitinhakualgoritmi aloittaa etsinnän uudestaan löydettyään avaimen, ja kykenee tällä kerralla avaamaan lukon
