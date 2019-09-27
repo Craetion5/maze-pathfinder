@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pathfinder;
 
 import org.junit.After;
@@ -45,17 +40,27 @@ public class PathfinderTest {
     public void testSolveLevel() {
         String result = Pathfinder.solve("1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1,1,1,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,0,1,1,0,0,1,1,0,0,1,1,0,0,0,0,0,0,1,0,0,1,1,8,1,1,0,0,0,0,0,0,0,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0,1,0,0,1,1,1,0,0,1,1,1,1,0,0,0,0,1,0,1,1,0,0,1,1,0,0,0,0,0,0,0,1,0,1,1,0,1,9,0,0,0,0,0,0,1,1,0,0,1,1,0,1,1,1,1,1,1,1,1,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1");
         System.out.println(result);
-        Assert.assertTrue(result.contains("Solution found:"));
+        Assert.assertTrue(result, result.contains("aaaaassdssassdssassddsddddsddddddwwawwdwwawwdwwawwaaasasasasasassddddddwwwww"));
     }
-    
-     /**
+
+    /**
      * Functional level featuring keys is solved.
      */
     @Test
     public void testSolveKeyLevel() {
         String result = Pathfinder.solve("1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,9,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,28,1,1,1,1,1,1,1,1,1,1,1,1,1,1,28,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,8,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,1,1,1,1,0,0,0,0,1,0,0,0,1,0,0,1,1,1,1,25,0,0,0,1,0,25,0,1,0,0,1,1,1,1,0,0,0,0,1,0,0,0,1,0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1");
         System.out.println(result);
-        Assert.assertTrue(result.contains("Solution found:"));
+        Assert.assertTrue(result, result.contains("awwdddddddwwaaaaaaassadddssaassddssaassdddddddwwwaawddsssaaaaaaawwddwwaawwwaaaaawwdw"));
+    }
+
+    /**
+     * Functional level featuring ice is solved.
+     */
+    @Test
+    public void testSolveIceLevel() {
+        String result = Pathfinder.solve("1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,2,2,2,2,2,0,0,1,1,1,1,1,1,0,0,2,2,2,2,2,0,0,1,1,1,1,1,1,0,8,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,2,2,2,0,2,1,1,1,1,1,1,0,0,0,1,2,2,2,2,2,1,1,1,1,1,1,0,9,0,1,2,0,2,0,2,1,1,1,1,1,1,0,0,0,1,2,2,2,2,2,1,1,1,1,1,1,0,0,0,1,1,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1");
+        System.out.println(result);
+        Assert.assertTrue(result, result.contains("aassddwasdwddwwwaaaw"));
     }
 
     /**
@@ -67,13 +72,23 @@ public class PathfinderTest {
         System.out.println(result);
         Assert.assertTrue(result.contains("Couldn't solve the level..."));
     }
-    
-     /**
+
+    /**
      * Impossible level featuring keys can't be solved.
      */
     @Test
     public void testCantSolveKeyLevel() {
         String result = Pathfinder.solve("1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,9,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,28,1,1,1,1,1,1,1,1,1,1,1,1,1,1,28,1,1,1,1,1,1,1,1,1,1,1,1,1,1,28,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,8,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,1,1,1,1,0,0,0,0,1,0,0,0,1,0,0,1,1,1,1,25,0,0,0,1,0,25,0,1,0,0,1,1,1,1,0,0,0,0,1,0,0,0,1,0,0,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1");
+        System.out.println(result);
+        Assert.assertTrue(result.contains("Couldn't solve the level..."));
+    }
+
+    /**
+     * Impossible level featuring ice can't be solved.
+     */
+    @Test
+    public void testCantSolveIceLevel() {
+        String result = Pathfinder.solve("1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,2,2,2,2,0,0,0,0,1,1,0,0,0,0,0,2,2,2,2,0,0,0,0,1,1,0,0,0,0,0,2,2,2,2,0,0,0,0,1,1,0,0,0,0,0,2,2,2,2,0,0,0,0,1,1,0,0,0,2,2,1,0,0,1,1,0,0,0,1,1,0,0,1,2,2,0,0,0,0,1,0,0,0,1,1,0,8,1,2,2,0,0,9,0,1,0,0,0,1,1,0,0,1,2,2,0,0,0,0,1,0,0,0,1,1,0,0,0,2,2,1,1,1,1,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1");
         System.out.println(result);
         Assert.assertTrue(result.contains("Couldn't solve the level..."));
     }

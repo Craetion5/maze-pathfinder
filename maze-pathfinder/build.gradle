@@ -24,6 +24,14 @@ run{
     standardOutput = System.out
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'pathfinder.Pathfinder'
+        )
+    }
+}
+
 repositories {
     mavenCentral()
     jcenter()
@@ -56,3 +64,6 @@ jacocoTestReport {
 }
 check.dependsOn jacocoTestReport
 
+checkstyle {
+  toolVersion "8.17"
+}
