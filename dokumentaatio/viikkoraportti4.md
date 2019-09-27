@@ -18,7 +18,7 @@
   
   Sovellus kykenee ratkaisemaan jo melko monipuolisesti erilaisia tasoja. Seuraavaksi tarvisikin enemmän hienosäätöä kuin uusia ominaisuuksia:
   
-  * Testauksen parantaminen (Uusia testiskenaarioita? Testien jakaminen eri luokkiin? Suorituskyky- tai muuta testausta?)
-  * Sovelluksen koodin hienosäätö (Jakaminen uusiin metodeihin/luokkiin? Muu laadun parantaminen?)
-  * Sovelluksen algoritmin parantaminen (Tähän saattaa kulua aikaa, eikä onnistumisesta ole takuuta)
-  * Dokumentaation laajentaminen?
+* Testauksen parantaminen (Uusia testiskenaarioita? Testien jakaminen eri luokkiin? Suorituskyky- tai muuta testausta?)
+* Sovelluksen koodin hienosäätö (Jakaminen uusiin metodeihin/luokkiin? Muu laadun parantaminen?)
+* Sovelluksen algoritmin parantaminen (Tähän saattaa kulua aikaa, eikä onnistumisesta ole takuuta)
+* Dokumentaation laajentaminen?
