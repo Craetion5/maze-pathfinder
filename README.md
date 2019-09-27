@@ -7,10 +7,10 @@ Reitinhakua ja sen suunnittelua pelin tasoihin
 [Määrittelydokumentti](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/m%C3%A4%C3%A4rittelydokumentti.md
 )
 
-[Testausdokumentti](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/Testausdokumentti.md
+[Testausdokumentti](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/testausdokumentti.md
 )
 
-[Toteutusdokumentti](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/Toteutusdokumentti.md
+[Toteutusdokumentti](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/toteutusdokumentti.md
 )
 
 [Käyttöohje](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/käyttöohje.md
