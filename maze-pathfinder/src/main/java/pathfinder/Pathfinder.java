@@ -1,10 +1,7 @@
 package pathfinder;
 
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Queue;
 import java.util.Scanner;
-import javafx.util.Pair;
+import performancetest.PerformanceTester;
 
 /**
  *
@@ -19,9 +16,28 @@ public class Pathfinder {
      */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter level code: ");
+        System.out.println("Enter level code or type 'test' for performance testing");
         String code = scanner.nextLine();
-        System.out.println(solve(code));
+        if (!code.equals("test")) {
+            // we try to solve the level
+            System.out.println(solve(code, false, 0));
+        } else {
+            // we are testing the algorithm performance
+            System.out.println("How many times to run the code?");
+            try {
+                int amount = Integer.parseInt(scanner.nextLine());
+                if (amount > 0) {
+                    System.out.println("Enter level code:");
+                    code = scanner.nextLine();
+                    solve(code, true, amount);
+                } else {
+                    System.out.println("Invalid value!");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid value!");
+            }
+
+        }
     }
 
     /**
@@ -29,9 +45,11 @@ public class Pathfinder {
      * map and calls the search algorithm
      *
      * @param levelCode The level code in its original form
+     * @param testing
+     * @param times
      * @return Sequence of commands required to solve the level
      */
-    public static String solve(String levelCode) {
+    public static String solve(String levelCode, boolean testing, int times) {
         try {
             //load the level code
             String tiles[][] = new String[15][15];
@@ -73,17 +91,29 @@ public class Pathfinder {
             }
 
             //print the level
-            System.out.println("");
-            System.out.print(LevelPrinter.printLevel(tiles));
-
-            //get and print the solution
-            String path = BFS.solve(tiles, startX, startY, "", false);
-            //printing the solution in levels featuring ice is currently disabled due to errors
-            if (!path.contains("Couldn't solve the level") && !ice) {
-                System.out.println(LevelPrinter.printSolution(tiles, path, startX, startY));
+            if (!testing) {
+                System.out.println("");
+                System.out.print(LevelPrinter.printLevel(tiles));
             }
-            System.out.println("");
-            return path;
+            
+            if (testing) {
+                //test algorithm performance
+                new PerformanceTester(tiles, startX, startY, times);
+            } else {
+                //get and print the solution
+                String path = BFS.solve(tiles, startX, startY, "", false);
+
+                if (!path.contains("Couldn't solve the level")) {
+                    System.out.println("\n\nSolution found:");
+
+                    //printing the solution in levels featuring ice is currently disabled due to errors
+                } else if (!ice) {
+                    System.out.println(LevelPrinter.printSolution(tiles, path, startX, startY));
+                }
+                System.out.println("");
+                return path;
+            }
+            return "";
 
         } catch (Exception e) {
             return "\nInvalid level code!";

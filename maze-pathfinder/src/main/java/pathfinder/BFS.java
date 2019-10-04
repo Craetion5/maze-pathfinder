@@ -1,7 +1,7 @@
 
 package pathfinder;
 
-import java.util.ArrayDeque;
+import datastructures.SimpleQueue;
 import java.util.HashMap;
 import javafx.util.Pair;
 
@@ -23,15 +23,15 @@ public class BFS {
      */
     public static String solve(String tiles[][], int startX, int startY, String oldPath, boolean hasKey) {
 
-        ArrayDeque<Pair<Integer, Integer>> queue = new ArrayDeque();
+        SimpleQueue<Pair<Integer, Integer>> queue = new SimpleQueue();
         HashMap<Pair, Pair> parents = new HashMap();
         boolean visited[][] = new boolean[15][15];
         visited[startX][startY] = true;
-        queue.push(new Pair<>(startX, startY));
+        queue.enqueue(new Pair<>(startX, startY));
         Pair<Integer, Integer> v;
 
         while (!queue.isEmpty()) {
-            v = queue.pop();
+            v = queue.dequeue();
             if (tiles[v.getKey()][v.getValue()].equals("X") || tiles[v.getKey()][v.getValue()].equals("L") || ((tiles[v.getKey()][v.getValue()].equals("k") && !hasKey))) {
                 // we are interacting with an object in this tile (finish, lock or key)
                 String found = tiles[v.getKey()][v.getValue()];
@@ -63,7 +63,6 @@ public class BFS {
                 }
                 if (found.equals("X")) {
                     // finish was found, we are done.
-                    System.out.println("\n\nSolution found:");
                     return oldPath + realPath;
                 } else if (found.equals("L")) {
                     // lock was found and we have the key, open the lock and start searching for goal again.
@@ -86,7 +85,7 @@ public class BFS {
                     // if the tile is passable it'll get visited next (lock tiles are passable only if the player is holding a key)
                     if (!visited[v.getKey() + xx][v.getValue() + yy] && !tiles[v.getKey() + xx][v.getValue() + yy].equals("#") && !(tiles[v.getKey() + xx][v.getValue() + yy].equals("L") && !hasKey) && !tiles[v.getKey() + xx][v.getValue() + yy].equals("i")) {
                         visited[v.getKey() + xx][v.getValue() + yy] = true;
-                        queue.push(new Pair<>(v.getKey() + xx, v.getValue() + yy));
+                        queue.enqueue(new Pair<>(v.getKey() + xx, v.getValue() + yy));
                         parents.put(new Pair<>(v.getKey() + xx, v.getValue() + yy), new Pair<>(v.getKey(), v.getValue()));
 
                         // the player is sliding on ice
@@ -99,7 +98,7 @@ public class BFS {
                             if (tiles[v.getKey() + xx][v.getValue() + yy].equals("#") || tiles[v.getKey() + xx][v.getValue() + yy].equals("L") && !hasKey) {
                                 if (!visited[v.getKey() + xx - xxx][v.getValue() + yy - yyy]) {
                                     visited[v.getKey() + xx - xxx][v.getValue() + yy - yyy] = true;
-                                    queue.push(new Pair<>(v.getKey() + xx - xxx, v.getValue() + yy - yyy));
+                                    queue.enqueue(new Pair<>(v.getKey() + xx - xxx, v.getValue() + yy - yyy));
                                     parents.put(new Pair<>(v.getKey() + xx - xxx, v.getValue() + yy - yyy), new Pair<>(v.getKey(), v.getValue()));
                                 }
                                 xx = xxx;
@@ -108,7 +107,7 @@ public class BFS {
                             } else if (!tiles[v.getKey() + xx][v.getValue() + yy].equals("i")) {
                                 if (!visited[v.getKey() + xx][v.getValue() + yy]) {
                                     visited[v.getKey() + xx][v.getValue() + yy] = true;
-                                    queue.push(new Pair<>(v.getKey() + xx, v.getValue() + yy));
+                                    queue.enqueue(new Pair<>(v.getKey() + xx, v.getValue() + yy));
                                     parents.put(new Pair<>(v.getKey() + xx, v.getValue() + yy), new Pair<>(v.getKey(), v.getValue()));
                                 }
                                 xx = xxx;
