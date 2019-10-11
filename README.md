@@ -30,3 +30,6 @@ Reitinhakua ja sen suunnittelua pelin tasoihin
 
 [Viikkoraportti 4](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/viikkoraportti4.md
 )
+
+[Viikkoraportti 5](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/viikkoraportti5.md
+)
