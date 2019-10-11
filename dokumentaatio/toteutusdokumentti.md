@@ -5,6 +5,7 @@ Sovellus koostuu viidestä luokasta:
 * reitinhakutoiminnallisuuden sisältävä luokka (BFS)
 * pieni luokka, joka tuottaa havainnollistavia tulostuksia (LevelPrinter)
 * yksinkertainen jonon toteutus (SimpleQueue)
+* yksinkertainen koordinaatistopisteen toteutus (Point)
 * sovelluksen suorituskykyä testaava luokka (PerformanceTester)
 
 PathFinder ottaa vastaan numeroista ja pilkuista koostuvia tasokoodimerkkijonoja, muodostaa niistä kaksiuloitteisen taulukon, ja kutsuu reitinhakuluokkaa BFS.
