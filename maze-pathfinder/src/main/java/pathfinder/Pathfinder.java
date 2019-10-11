@@ -57,7 +57,6 @@ public class Pathfinder {
             int indx = 0;
             int startX = 0;
             int startY = 0;
-            boolean ice = false;
             for (int i = 0; i < 15; i++) {
                 for (int j = 0; j < 15; j++) {
                     switch (codeArray[indx]) {
@@ -83,7 +82,9 @@ public class Pathfinder {
                             break;
                         case "2": //ICE
                             tiles[j][i] = "i";
-                            ice = true;
+                            break;
+                        case "3": //LAVA
+                            tiles[j][i] = "*";
                             break;
                     }
                     indx++;
@@ -95,21 +96,18 @@ public class Pathfinder {
                 System.out.println("");
                 System.out.print(LevelPrinter.printLevel(tiles));
             }
-            
+
             if (testing) {
                 //test algorithm performance
                 new PerformanceTester(tiles, startX, startY, times);
             } else {
                 //get and print the solution
-                String path = BFS.solve(tiles, startX, startY, "", false);
+                String path = BFS.solve(tiles, startX, startY);
 
                 if (!path.contains("Couldn't solve the level")) {
                     System.out.println("\n\nSolution found:");
-
-                    //printing the solution in levels featuring ice is currently disabled due to errors
-                } else if (!ice) {
-                    System.out.println(LevelPrinter.printSolution(tiles, path, startX, startY));
                 }
+
                 System.out.println("");
                 return path;
             }
