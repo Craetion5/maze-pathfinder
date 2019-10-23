@@ -51,7 +51,7 @@ public class Pathfinder {
      */
     public static String solve(String levelCode, boolean testing, int times) {
         try {
-            //load the level code
+            //parse the level code
             String tiles[][] = new String[15][15];
             String[] codeArray = levelCode.split(",");
             int indx = 0;
@@ -98,10 +98,10 @@ public class Pathfinder {
             }
 
             if (testing) {
-                //test algorithm performance
+                //test algorithm performance if in testing mode
                 new PerformanceTester(tiles, startX, startY, times);
             } else {
-                //get and print the solution
+                //otherwise get and print the solution
                 String path = BFS.solve(tiles, startX, startY);
 
                 if (!path.contains("Couldn't solve the level")) {

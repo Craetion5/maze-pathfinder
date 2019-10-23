@@ -40,6 +40,7 @@ public class BFS {
                 // we are interacting with an object in this tile (finish, lock or key)
                 String found = tiles[tileVisiting.getX()][tileVisiting.getY()];
                 Point vCopy = new Point(tileVisiting.getX(), tileVisiting.getY());
+                // path to the object is saved
                 String reversedPath = "";
                 while (true) {
                     try {
@@ -95,38 +96,11 @@ public class BFS {
                         queue.enqueue(new Point(tileVisiting.getX() + stepX, tileVisiting.getY() + stepY));
                         parents[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] = new Point(tileVisiting.getX(), tileVisiting.getY());
 
-                        // the player is sliding on ice
-                    } else if (!visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] && tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals("i")) {
-                        int xBeforeSliding = stepX;
-                        int yBeforeSliding = stepY;
-                        while (true) {
-                            stepX += xBeforeSliding;
-                            stepY += yBeforeSliding;
-                            //wall found, we stop
-                            if (tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals("#") || tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals("L") && !hasKey) {
-                                if (!visited[tileVisiting.getX() + stepX - xBeforeSliding][tileVisiting.getY() + stepY - yBeforeSliding]) {
-                                    visited[tileVisiting.getX() + stepX - xBeforeSliding][tileVisiting.getY() + stepY - yBeforeSliding] = true;
-                                    queue.enqueue(new Point(tileVisiting.getX() + stepX - xBeforeSliding, tileVisiting.getY() + stepY - yBeforeSliding));
-                                    parents[tileVisiting.getX() + stepX - xBeforeSliding][tileVisiting.getY() + stepY - yBeforeSliding] = new Point(tileVisiting.getX(), tileVisiting.getY());
-                                }
-                                stepX = xBeforeSliding;
-                                stepY = yBeforeSliding;
-                                break;
-                                //lava found, better not slide there!
-                            } else if (tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals("*")) {
-                                stepX = xBeforeSliding;
-                                stepY = yBeforeSliding;
-                                break;
-                            } else if (!tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals("i")) {
-                                if (!visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY]) {
-                                    visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] = true;
-                                    queue.enqueue(new Point(tileVisiting.getX() + stepX, tileVisiting.getY() + stepY));
-                                    parents[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] = new Point(tileVisiting.getX(), tileVisiting.getY());
-                                }
-                                stepX = xBeforeSliding;
-                                stepY = yBeforeSliding;
-                                break;
-                            }
+                        // the player is stepping on ice
+                    } else if (!visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] && (tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals("i"))) {
+                        Point p = slidePlayer(stepX, stepY, tileVisiting, tiles, visited, parents, hasKey);
+                        if (p != null) {
+                            queue.enqueue(p);
                         }
                     }
                 } catch (Exception e) {
@@ -170,10 +144,59 @@ public class BFS {
      * @param tiles Array that contains information of the level layout
      * @param startX The x position where the search starts
      * @param startY The y position where the search starts
-     * @return
+     * @return A solution to the level
      */
     public static String solve(String tiles[][], int startX, int startY) {
         return BFS.solve(tiles, startX, startY, "", false, clone2DArray(tiles), startX, startY);
+    }
+
+    /**
+     * Simulates player movement when stepping on ice.
+     *
+     * Values of variables that the algorithm uses are passed to this method.
+     *
+     * @param stepX Horizontal movement of the step
+     * @param stepY Vertical movement of the step
+     * @param tileVisiting Location where the sliding is started
+     * @param tiles Tile map of the level
+     * @param visited Tiles that have been visited
+     * @param parents Neighbours of visited tiles
+     * @param hasKey Does the player have a key?
+     *
+     * @return The (x,y) location where the slide ends. Null if slide ends to a
+     * lava tile.
+     */
+    public static Point slidePlayer(int stepX, int stepY, Point tileVisiting, String tiles[][], boolean visited[][], Point parents[][], boolean hasKey) {
+        int xMovement = stepX;
+        int yMovement = stepY;
+        Point p = new Point(0, 0);
+        while (true) {
+            stepX += xMovement;
+            stepY += yMovement;
+            //wall found, we stop
+            if (tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals("#") || tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals("L") && !hasKey) {
+                if (!visited[tileVisiting.getX() + stepX - xMovement][tileVisiting.getY() + stepY - yMovement]) {
+                    visited[tileVisiting.getX() + stepX - xMovement][tileVisiting.getY() + stepY - yMovement] = true;
+                    p = new Point(tileVisiting.getX() + stepX - xMovement, tileVisiting.getY() + stepY - yMovement);
+                    parents[tileVisiting.getX() + stepX - xMovement][tileVisiting.getY() + stepY - yMovement] = new Point(tileVisiting.getX(), tileVisiting.getY());
+                }
+                break;
+                //lava found, better not slide there!
+            } else if (tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals("*")) {
+                p = null;
+                break;
+                //floor found, we stop and slide there
+            } else if (!(tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals("i"))) {
+                if (!visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY]) {
+                    visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] = true;
+                    p = new Point(tileVisiting.getX() + stepX, tileVisiting.getY() + stepY);
+                    parents[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] = new Point(tileVisiting.getX(), tileVisiting.getY());
+                }
+                break;
+            }
+        }
+
+        return p;
     }
 
     /**

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BFS.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maze-pathfinder</a> &gt; <a href="index.source.html" class="el_package">pathfinder</a> &gt; <span class="el_source">BFS.java</span></div><h1>BFS.java</h1><pre class="source lang-java linenums">package pathfinder;
+
+import datastructures.Point;
+import datastructures.SimpleQueue;
+
+/**
+ *
+ * @author jethulk
+ */
+<span class="nc" id="L10">public class BFS {</span>
+
+    /**
+     * A modified BFS algorithm that attempts to find a solution to the level.
+     *
+     * @param tiles Array that contains information of the level layout
+     * @param startX The x position where the search starts
+     * @param startY The y position where the search starts
+     * @param oldPath The path that the player has already travelled
+     * @param hasKey Is the player carrying a key?
+     *
+     * These parameters are used to store information about the starting state
+     * of the first search so we can redo the search if we mess up.
+     * @param tilesAtFirst
+     * @param startXAtFirst
+     * @param startYAtFirst
+     *
+     * @return Sequence of commands required to solve the level
+     */
+    public static String solve(String tiles[][], int startX, int startY, String oldPath, boolean hasKey, String tilesAtFirst[][], int startXAtFirst, int startYAtFirst) {
+<span class="fc" id="L30">        SimpleQueue&lt;Point&gt; queue = new SimpleQueue&lt;&gt;();</span>
+<span class="fc" id="L31">        Point parents[][] = new Point[15][15];</span>
+<span class="fc" id="L32">        boolean visited[][] = new boolean[15][15];</span>
+<span class="fc" id="L33">        visited[startX][startY] = true;</span>
+<span class="fc" id="L34">        queue.enqueue(new Point(startX, startY));</span>
+        Point tileVisiting;
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        while (!queue.isEmpty()) {</span>
+<span class="fc" id="L38">            tileVisiting = queue.dequeue();</span>
+<span class="pc bpc" id="L39" title="1 of 8 branches missed.">            if (tiles[tileVisiting.getX()][tileVisiting.getY()].equals(&quot;X&quot;) || tiles[tileVisiting.getX()][tileVisiting.getY()].equals(&quot;L&quot;) || ((tiles[tileVisiting.getX()][tileVisiting.getY()].equals(&quot;k&quot;) &amp;&amp; !hasKey))) {</span>
+                // we are interacting with an object in this tile (finish, lock or key)
+<span class="fc" id="L41">                String found = tiles[tileVisiting.getX()][tileVisiting.getY()];</span>
+<span class="fc" id="L42">                Point vCopy = new Point(tileVisiting.getX(), tileVisiting.getY());</span>
+                // path to the object is saved
+<span class="fc" id="L44">                String reversedPath = &quot;&quot;;</span>
+                while (true) {
+                    try {
+<span class="fc" id="L47">                        Point prevTile = new Point(parents[tileVisiting.getX()][tileVisiting.getY()].getX(), parents[tileVisiting.getX()][tileVisiting.getY()].getY());</span>
+
+<span class="fc bfc" id="L49" title="All 2 branches covered.">                        if (tileVisiting.getX() - prevTile.getX() &gt;= 1) {</span>
+<span class="fc" id="L50">                            reversedPath += &quot;s&quot;; //down</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">                        } else if (tileVisiting.getX() - prevTile.getX() &lt;= -1) {</span>
+<span class="fc" id="L52">                            reversedPath += &quot;w&quot;; //up</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                        } else if (tileVisiting.getY() - prevTile.getY() &gt;= 1) {</span>
+<span class="fc" id="L54">                            reversedPath += &quot;d&quot;; //right</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">                        } else if (tileVisiting.getY() - prevTile.getY() &lt;= -1) {</span>
+<span class="fc" id="L56">                            reversedPath += &quot;a&quot;; //left</span>
+                        }
+<span class="fc" id="L58">                        tileVisiting = prevTile;</span>
+<span class="fc" id="L59">                    } catch (Exception e) {</span>
+                        //the coordinate has no parent so it's the start position of the search
+<span class="fc" id="L61">                        break;</span>
+<span class="fc" id="L62">                    }</span>
+                }
+
+                // path needs to be reversed
+<span class="fc" id="L66">                String currentPath = &quot;&quot;;</span>
+<span class="fc" id="L67">                int index = reversedPath.length() - 1;</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">                while (index &gt;= 0) {</span>
+<span class="fc" id="L69">                    currentPath += reversedPath.charAt(index);</span>
+<span class="fc" id="L70">                    index--;</span>
+                }
+<span class="fc bfc" id="L72" title="All 2 branches covered.">                if (found.equals(&quot;X&quot;)) {</span>
+                    // finish was found, we are done.
+<span class="fc" id="L74">                    return oldPath + currentPath;</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">                } else if (found.equals(&quot;L&quot;)) {</span>
+                    // lock was found and we have the key, open the lock and start searching for goal again.
+<span class="fc" id="L77">                    tiles[vCopy.getX()][vCopy.getY()] = &quot;-&quot;;</span>
+<span class="fc" id="L78">                    hasKey = false;</span>
+<span class="fc" id="L79">                    return solve(tiles, vCopy.getX(), vCopy.getY(), oldPath + currentPath, hasKey, tilesAtFirst, startXAtFirst, startYAtFirst);</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">                } else if (found.equals(&quot;k&quot;)) {</span>
+                    // key was found, pick up the key and start searching for goal again.
+<span class="fc" id="L82">                    tiles[vCopy.getX()][vCopy.getY()] = &quot;-&quot;;</span>
+<span class="fc" id="L83">                    hasKey = true;</span>
+<span class="fc" id="L84">                    return solve(tiles, vCopy.getX(), vCopy.getY(), oldPath + currentPath, hasKey, tilesAtFirst, startXAtFirst, startYAtFirst);</span>
+                }
+            }
+
+            // here we check all adjacent tiles if they haven't been checked already
+<span class="fc" id="L89">            int stepX = 1;</span>
+<span class="fc" id="L90">            int stepY = 0;</span>
+            while (true) {
+                try {
+                    // if the tile is passable it'll get visited next (lock tiles are passable only if the player is holding a key)
+<span class="fc bfc" id="L94" title="All 12 branches covered.">                    if (!visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] &amp;&amp; !tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals(&quot;#&quot;) &amp;&amp; !(tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals(&quot;L&quot;) &amp;&amp; !hasKey) &amp;&amp; !tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals(&quot;*&quot;) &amp;&amp; !tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals(&quot;i&quot;)) {</span>
+<span class="fc" id="L95">                        visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] = true;</span>
+<span class="fc" id="L96">                        queue.enqueue(new Point(tileVisiting.getX() + stepX, tileVisiting.getY() + stepY));</span>
+<span class="fc" id="L97">                        parents[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] = new Point(tileVisiting.getX(), tileVisiting.getY());</span>
+
+                        // the player is stepping on ice
+<span class="fc bfc" id="L100" title="All 4 branches covered.">                    } else if (!visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] &amp;&amp; (tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals(&quot;i&quot;))) {</span>
+<span class="fc" id="L101">                        Point p = slidePlayer(stepX, stepY, tileVisiting, tiles, visited, parents, hasKey);</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">                        if (p != null) {</span>
+<span class="fc" id="L103">                            queue.enqueue(p);</span>
+                        }
+                    }
+<span class="fc" id="L106">                } catch (Exception e) {</span>
+
+<span class="fc" id="L108">                }</span>
+                //we start looking at another adjacent tile if there are some unchecked ones left
+<span class="fc bfc" id="L110" title="All 2 branches covered.">                if (stepX == 1) {</span>
+<span class="fc" id="L111">                    stepX = -1;</span>
+<span class="fc" id="L112">                    stepY = 0;</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">                } else if (stepX == -1) {</span>
+<span class="fc" id="L114">                    stepX = 0;</span>
+<span class="fc" id="L115">                    stepY = 1;</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">                } else if (stepY == 1) {</span>
+<span class="fc" id="L117">                    stepY = -1;</span>
+<span class="fc" id="L118">                    stepX = 0;</span>
+                } else {
+                    break;
+                }
+            }
+<span class="fc" id="L123">        }</span>
+        //no path to goal was found.
+
+        //we try searching again if we might've collected some unnecessary keys or opened some unneecssary locks
+<span class="pc bpc" id="L127" title="1 of 4 branches missed.">        if (startX != startXAtFirst &amp;&amp; startY != startYAtFirst) {</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">            if (&quot;k&quot;.equals(tilesAtFirst[startX][startY])) {</span>
+<span class="fc" id="L129">                tilesAtFirst[startX][startY] = &quot;-&quot;;</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">            } else if (&quot;L&quot;.equals(tilesAtFirst[startX][startY])) {</span>
+<span class="fc" id="L131">                tilesAtFirst[startX][startY] = &quot;#&quot;;</span>
+            }
+<span class="fc" id="L133">            return BFS.solve(tilesAtFirst, startXAtFirst, startYAtFirst, &quot;&quot;, false, clone2DArray(tilesAtFirst), startXAtFirst, startYAtFirst);</span>
+        }
+
+<span class="fc" id="L136">        return &quot;\n\nCouldn't solve the level...&quot;;</span>
+    }
+
+    /**
+     * A modified BFS algorithm that attempts to find a solution to the level.
+     * This method with less parameters is called when the search starts for the
+     * first time.
+     *
+     * @param tiles Array that contains information of the level layout
+     * @param startX The x position where the search starts
+     * @param startY The y position where the search starts
+     * @return A solution to the level
+     */
+    public static String solve(String tiles[][], int startX, int startY) {
+<span class="fc" id="L150">        return BFS.solve(tiles, startX, startY, &quot;&quot;, false, clone2DArray(tiles), startX, startY);</span>
+    }
+
+    /**
+     * Simulates player movement when stepping on ice.
+     *
+     * Values of variables that the algorithm uses are passed to this method.
+     *
+     * @param stepX Horizontal movement of the step
+     * @param stepY Vertical movement of the step
+     * @param tileVisiting Location where the sliding is started
+     * @param tiles Tile map of the level
+     * @param visited Tiles that have been visited
+     * @param parents Neighbours of visited tiles
+     * @param hasKey Does the player have a key?
+     *
+     * @return The (x,y) location where the slide ends. Null if slide ends to a
+     * lava tile.
+     */
+    public static Point slidePlayer(int stepX, int stepY, Point tileVisiting, String tiles[][], boolean visited[][], Point parents[][], boolean hasKey) {
+<span class="fc" id="L170">        int xMovement = stepX;</span>
+<span class="fc" id="L171">        int yMovement = stepY;</span>
+<span class="fc" id="L172">        Point p = new Point(0, 0);</span>
+        while (true) {
+<span class="fc" id="L174">            stepX += xMovement;</span>
+<span class="fc" id="L175">            stepY += yMovement;</span>
+            //wall found, we stop
+<span class="fc bfc" id="L177" title="All 6 branches covered.">            if (tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals(&quot;#&quot;) || tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals(&quot;L&quot;) &amp;&amp; !hasKey) {</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">                if (!visited[tileVisiting.getX() + stepX - xMovement][tileVisiting.getY() + stepY - yMovement]) {</span>
+<span class="fc" id="L179">                    visited[tileVisiting.getX() + stepX - xMovement][tileVisiting.getY() + stepY - yMovement] = true;</span>
+<span class="fc" id="L180">                    p = new Point(tileVisiting.getX() + stepX - xMovement, tileVisiting.getY() + stepY - yMovement);</span>
+<span class="fc" id="L181">                    parents[tileVisiting.getX() + stepX - xMovement][tileVisiting.getY() + stepY - yMovement] = new Point(tileVisiting.getX(), tileVisiting.getY());</span>
+                }
+                break;
+                //lava found, better not slide there!
+<span class="fc bfc" id="L185" title="All 2 branches covered.">            } else if (tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals(&quot;*&quot;)) {</span>
+<span class="fc" id="L186">                p = null;</span>
+<span class="fc" id="L187">                break;</span>
+                //floor found, we stop and slide there
+<span class="fc bfc" id="L189" title="All 2 branches covered.">            } else if (!(tiles[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY].equals(&quot;i&quot;))) {</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">                if (!visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY]) {</span>
+<span class="fc" id="L191">                    visited[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] = true;</span>
+<span class="fc" id="L192">                    p = new Point(tileVisiting.getX() + stepX, tileVisiting.getY() + stepY);</span>
+<span class="fc" id="L193">                    parents[tileVisiting.getX() + stepX][tileVisiting.getY() + stepY] = new Point(tileVisiting.getX(), tileVisiting.getY());</span>
+                }
+                break;
+            }
+        }
+
+<span class="fc" id="L199">        return p;</span>
+    }
+
+    /**
+     * Clones a 2D array
+     *
+     * @param array The array to clone
+     * @return cloned array
+     */
+    public static String[][] clone2DArray(String[][] array) {
+<span class="fc" id="L209">        String[][] clonedArray = new String[array.length][];</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        for (int i = 0; i &lt; array.length; i++) {</span>
+<span class="fc" id="L211">            clonedArray[i] = array[i].clone();</span>
+        }
+<span class="fc" id="L213">        return clonedArray;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

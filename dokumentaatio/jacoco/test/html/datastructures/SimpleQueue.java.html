@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimpleQueue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maze-pathfinder</a> &gt; <a href="index.source.html" class="el_package">datastructures</a> &gt; <span class="el_source">SimpleQueue.java</span></div><h1>SimpleQueue.java</h1><pre class="source lang-java linenums">package datastructures;
+
+/**
+ *
+ * @author jethulk
+ * @param &lt;E&gt; the type of object which the queue stores
+ */
+public class SimpleQueue&lt;E extends Object&gt; {
+
+    private E[] array;
+    private int firstIndex;
+    private int lastIndex;
+
+    /**
+     * A simple queue implementation.
+     */
+<span class="fc" id="L17">    public SimpleQueue() {</span>
+<span class="fc" id="L18">        firstIndex = 0;</span>
+<span class="fc" id="L19">        lastIndex = 0;</span>
+<span class="fc" id="L20">        array = (E[]) new Object[150];</span>
+<span class="fc" id="L21">    }</span>
+
+    public void enqueue(E e) {
+<span class="fc" id="L24">        array[lastIndex] = e;</span>
+<span class="fc" id="L25">        lastIndex++;</span>
+<span class="fc" id="L26">    }</span>
+
+    public E dequeue() {
+<span class="fc" id="L29">        E e = array[firstIndex];</span>
+<span class="fc" id="L30">        firstIndex++;</span>
+<span class="fc" id="L31">        return e;</span>
+    }
+
+    public boolean isEmpty() {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        return array[firstIndex] == null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

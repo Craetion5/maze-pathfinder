@@ -3,6 +3,7 @@ package datastructures;
 /**
  *
  * @author jethulk
+ * @param <E> the type of object which the queue stores
  */
 public class SimpleQueue<E extends Object> {
 

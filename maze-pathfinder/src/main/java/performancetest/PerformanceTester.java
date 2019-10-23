@@ -19,11 +19,13 @@ public class PerformanceTester {
      * @param times How many times is the algorithm executed?
      */
     public PerformanceTester(String tiles[][], int startX, int startY, int times) {
+        BFS.solve(tiles, startX, startY);
         double t = System.nanoTime();
         for (int i = 0; i < times; i++) {
             BFS.solve(tiles, startX, startY);
         }
         t = System.nanoTime() - t;
-        System.out.println("\nTime in nanoseconds: " + t);
+        System.out.println("\nAverage time in nanoseconds: " + t / times);
+        System.out.println("\nSum in nanoseconds: " + t);
     }
 }
