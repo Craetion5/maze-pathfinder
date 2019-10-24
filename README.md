@@ -4,6 +4,8 @@ Reitinhakua ja sen suunnittelua pelin tasoihin
 
 -------------------------------------------
 
+## Dokumentaatio
+
 [Määrittelydokumentti](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/m%C3%A4%C3%A4rittelydokumentti.md
 )
 
@@ -18,6 +20,8 @@ Reitinhakua ja sen suunnittelua pelin tasoihin
 
 ---------------------
 
+## Koodin dokumentointi
+
 [Javadoc](http://htmlpreview.github.io/?https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/javadoc/overview-summary.html
 )
 
@@ -31,6 +35,8 @@ Reitinhakua ja sen suunnittelua pelin tasoihin
 )  
 
 -----------------------
+
+## Viikkoraportit
 
 [Viikkoraportti 1](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/viikkoraportti1.md
 )
