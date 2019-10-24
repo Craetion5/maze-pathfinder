@@ -18,6 +18,19 @@ Reitinhakua ja sen suunnittelua pelin tasoihin
 
 ---------------------
 
+[Javadoc](http://htmlpreview.github.io/?https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/javadoc/overview-summary.html
+)
+
+[Yksikkötestit](http://htmlpreview.github.io/?https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/tests/test/index.html
+)
+
+[Testausrivikattavuus](http://htmlpreview.github.io/?https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/jacoco/test/html/index.html
+)
+
+[Checkstyle](http://htmlpreview.github.io/?https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/checkstyle/main.html
+)  
+
+-----------------------
 
 [Viikkoraportti 1](https://github.com/Craetion5/maze-pathfinder/blob/master/dokumentaatio/viikkoraportti1.md
 )
