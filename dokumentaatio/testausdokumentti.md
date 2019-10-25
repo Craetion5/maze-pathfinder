@@ -12,7 +12,7 @@ Sovelluksessa on käytössä JUnit, joka mahdollistaa projektin testaamisen yksi
 
 ### Tietorakenteiden testaus
 
-Tietorakenteille on testit luokissa PointTest ja SimpelQueueTest. Tietorakenteiden yksinkertaisuuden vuoksi niiden testitkin ovat yksinkertaisia ja testaavat tietorakenteiden toimintaa.
+Tietorakenteille on testit luokissa PointTest ja SimpleQueueTest. Tietorakenteiden yksinkertaisuuden vuoksi niiden testitkin ovat yksinkertaisia ja testaavat tietorakenteiden toimintaa.
 
 ### Reitinhaun testaus
 
