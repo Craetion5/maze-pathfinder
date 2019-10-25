@@ -44,7 +44,7 @@ Sovelluksen reitinhaku on luokassa BFS ja perustuu peliruudukon leveyssuuntaisee
 
 Jos poimitaan avain tai avataan avaimella lukko niin taulukkoon tallennettua pelikenttää päivitetään ja reitinhaku aloitetaan uudelleen. Reitinhaun epäonnistuttua avaimen keräämisen tai lukon avaamisen jälkeen yritetään reitinhakua uudelleen ilman kyseisen tapahtuman toistamista. Algoritmi toimii siis rekursiivisesti tietyissä tapauksissa.
 
-Algoritmi palauttaa merkkijonomuotoisen ratkaisun, jos reitti maaliruudulle löytyy. Muuten se kertoo ratkaisuyrityksen epäonnistuneen.
+Algoritmi luo tiedon reitistä ja palauttaa merkkijonomuotoisen ratkaisun, jos reitti maaliruudulle löytyy. Muuten se kertoo ratkaisuyrityksen epäonnistuneen.
 
 ### Aika- ja tilavaativuuksista
 
