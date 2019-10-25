@@ -21,4 +21,4 @@ Sovellus palauttaa reitinhaun onnistuttua rivin komentoja sisältävän merkkijo
 
 Ratkaisun syöttäminen peliin onnistuu painamalla nappia "-" jolloin peliin avautuu ikkuna, jonne ratkaisukoodin voi syöttää.
 
-Jos pelissä on kyseinen taso pelattavana voi napilla "+" toistaa seuraavan liikkeen syötetyn ratkaisukoodin mukaisella reitillä ja näin tarkastella reitinhaun palauttamaa ratkaisua.
+Jos pelissä on kyseinen taso pelattavana voi napilla "+" toistaa seuraavan liikkeen syötetyn ratkaisukoodin mukaisella reitillä, ja näin tarkastella reitinhaun palauttamaa ratkaisua.
